@@ -79,6 +79,8 @@ struct TPPLPoint {
     return r;
   }
 
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wfloat-equal"
   bool operator==(const TPPLPoint &p) const {
     return ((x == p.x) && (y == p.y));
   }
@@ -86,6 +88,7 @@ struct TPPLPoint {
   bool operator!=(const TPPLPoint &p) const {
     return !((x == p.x) && (y == p.y));
   }
+  #pragma clang diagnostic pop
 };
 
 // Polygon implemented as an array of points with a "hole" flag.
