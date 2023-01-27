@@ -244,14 +244,14 @@ public:
   };
 
   // Standard helper functions.
-  bool IsConvex(TPPLPoint &p1, TPPLPoint &p2, TPPLPoint &p3);
-  bool IsReflex(TPPLPoint &p1, TPPLPoint &p2, TPPLPoint &p3);
-  bool IsInside(TPPLPoint &p1, TPPLPoint &p2, TPPLPoint &p3, TPPLPoint &p);
+  bool IsConvex(const TPPLPoint &p1, const TPPLPoint &p2, const TPPLPoint &p3);
+  bool IsReflex(const TPPLPoint &p1, const TPPLPoint &p2, const TPPLPoint &p3);
+  bool IsInside(const TPPLPoint &p1, const TPPLPoint &p2, const TPPLPoint &p3, const TPPLPoint &p);
 
-  bool InCone(TPPLPoint &p1, TPPLPoint &p2, TPPLPoint &p3, TPPLPoint &p);
-  bool InCone(PartitionVertex *v, TPPLPoint &p);
+  bool InCone(const TPPLPoint &p1, const TPPLPoint &p2, const TPPLPoint &p3, const TPPLPoint &p);
+  bool InCone(PartitionVertex *v, const TPPLPoint &p);
 
-  int Intersects(TPPLPoint &p11, TPPLPoint &p12, TPPLPoint &p21, TPPLPoint &p22);
+  int Intersects(const TPPLPoint &p11, const TPPLPoint &p12, const TPPLPoint &p21, const TPPLPoint &p22);
 
   TPPLPoint Normalize(const TPPLPoint &p);
   tppl_float Distance(const TPPLPoint &p1, const TPPLPoint &p2);
@@ -339,7 +339,7 @@ public:
   //    triangles:
   //       A list of triangles (result).
   // Returns 1 on success, 0 on failure.
-  int Triangulate_MONO(TPPLPoly *poly, TPPLPolyList *triangles);
+  int Triangulate_MONO(const TPPLPoly *poly, TPPLPolyList *triangles);
 
   // Triangulates a list of polygons by first
   // partitioning them into monotone polygons.
