@@ -35,15 +35,11 @@ TPPLPoly::TPPLPoly() {
 }
 
 TPPLPoly::~TPPLPoly() {
-  if (points) {
-    delete[] points;
-  }
+  delete[] points;
 }
 
 void TPPLPoly::Clear() {
-  if (points) {
-    delete[] points;
-  }
+  delete[] points;
   hole = false;
   numpoints = 0;
   points = NULL;
@@ -204,7 +200,7 @@ int TPPLPartition::RemoveHoles(TPPLPolyList *inpolys, TPPLPolyList *outpolys) {
 
   polys = *inpolys;
 
-  while (1) {
+  while (true) {
     // Find the hole point with the largest x.
     hasholes = false;
     for (iter = polys.begin(); iter != polys.end(); iter++) {
@@ -311,23 +307,13 @@ int TPPLPartition::RemoveHoles(TPPLPolyList *inpolys, TPPLPolyList *outpolys) {
 }
 
 bool TPPLPartition::IsConvex(TPPLPoint &p1, TPPLPoint &p2, TPPLPoint &p3) {
-  tppl_float tmp;
-  tmp = (p3.y - p1.y) * (p2.x - p1.x) - (p3.x - p1.x) * (p2.y - p1.y);
-  if (tmp > 0) {
-    return 1;
-  } else {
-    return 0;
-  }
+  const tppl_float tmp = (p3.y - p1.y) * (p2.x - p1.x) - (p3.x - p1.x) * (p2.y - p1.y);
+  return tmp > 0;
 }
 
 bool TPPLPartition::IsReflex(TPPLPoint &p1, TPPLPoint &p2, TPPLPoint &p3) {
-  tppl_float tmp;
-  tmp = (p3.y - p1.y) * (p2.x - p1.x) - (p3.x - p1.x) * (p2.y - p1.y);
-  if (tmp < 0) {
-    return 1;
-  } else {
-    return 0;
-  }
+  const tppl_float tmp = (p3.y - p1.y) * (p2.x - p1.x) - (p3.x - p1.x) * (p2.y - p1.y);
+  return tmp < 0;
 }
 
 bool TPPLPartition::IsInside(TPPLPoint &p1, TPPLPoint &p2, TPPLPoint &p3, TPPLPoint &p) {
@@ -1116,7 +1102,7 @@ int TPPLPartition::ConvexPartition_OPT(TPPLPoly *poly, TPPLPolyList *parts) {
       if ((j - diagonal.index1) > 1) {
         if (iter->index1 != iter->index2) {
           pairs2 = &(dpstates[diagonal.index1][j].pairs);
-          while (1) {
+          while (true) {
             if (pairs2->empty()) {
               ret = 0;
               break;
@@ -1146,7 +1132,7 @@ int TPPLPartition::ConvexPartition_OPT(TPPLPoly *poly, TPPLPolyList *parts) {
       if ((diagonal.index2 - j) > 1) {
         if (iter->index1 != iter->index2) {
           pairs2 = &(dpstates[j][diagonal.index2].pairs);
-          while (1) {
+          while (true) {
             if (pairs2->empty()) {
               ret = 0;
               break;
@@ -1616,13 +1602,8 @@ bool TPPLPartition::VertexSorter::operator()(long index1, long index2) {
 }
 
 bool TPPLPartition::ScanLineEdge::IsConvex(const TPPLPoint &p1, const TPPLPoint &p2, const TPPLPoint &p3) const {
-  tppl_float tmp;
-  tmp = (p3.y - p1.y) * (p2.x - p1.x) - (p3.x - p1.x) * (p2.y - p1.y);
-  if (tmp > 0) {
-    return 1;
-  }
-
-  return 0;
+  const tppl_float tmp = (p3.y - p1.y) * (p2.x - p1.x) - (p3.x - p1.x) * (p2.y - p1.y);
+  return tmp > 0;
 }
 
 bool TPPLPartition::ScanLineEdge::operator<(const ScanLineEdge &other) const {
