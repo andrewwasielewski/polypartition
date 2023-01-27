@@ -116,15 +116,11 @@ TPPLPartition::PartitionVertex::PartitionVertex() :
 }
 
 TPPLPoint TPPLPartition::Normalize(const TPPLPoint &p) {
-  TPPLPoint r;
-  tppl_float n = sqrt(p.x * p.x + p.y * p.y);
+  const tppl_float n = sqrt(p.x * p.x + p.y * p.y);
   if (n != 0) {
-    r = p / n;
-  } else {
-    r.x = 0;
-    r.y = 0;
+    return p / n;
   }
-  return r;
+  return {0,0};
 }
 
 tppl_float TPPLPartition::Distance(const TPPLPoint &p1, const TPPLPoint &p2) {
@@ -139,13 +135,8 @@ int TPPLPartition::Intersects(const TPPLPoint &p11, const TPPLPoint &p12, const 
     return 0;
   }
 
-  TPPLPoint v1ort, v2ort;
-
-  v1ort.x = p12.y - p11.y;
-  v1ort.y = p11.x - p12.x;
-
-  v2ort.x = p22.y - p21.y;
-  v2ort.y = p21.x - p22.x;
+  const TPPLPoint v1ort{p12.y - p11.y, p11.x - p12.x};
+  const TPPLPoint v2ort{p22.y - p21.y, p21.x - p22.x};
 
   TPPLPoint v = p21 - p11;
   const tppl_float dot21 = v.x * v1ort.x + v.y * v1ort.y;
@@ -652,7 +643,7 @@ int TPPLPartition::Triangulate_OPT(TPPLPoly *poly, TPPLPolyList *triangles) {
   TPPLPoint p1, p2, p3, p4;
   long bestvertex;
   tppl_float weight, minweight, d1, d2;
-  Diagonal diagonal, newdiagonal;
+  Diagonal diagonal;
   DiagonalList diagonals;
   TPPLPoly triangle;
   int ret = 1;
@@ -770,9 +761,7 @@ int TPPLPartition::Triangulate_OPT(TPPLPoly *poly, TPPLPolyList *triangles) {
     }
   }
 
-  newdiagonal.index1 = 0;
-  newdiagonal.index2 = n - 1;
-  diagonals.push_back(newdiagonal);
+  diagonals.emplace_back(Diagonal{0, n - 1});
   while (!diagonals.empty()) {
     diagonal = *(diagonals.begin());
     diagonals.pop_front();
@@ -784,14 +773,10 @@ int TPPLPartition::Triangulate_OPT(TPPLPoly *poly, TPPLPolyList *triangles) {
     triangle.Triangle(poly->GetPoint(diagonal.index1), poly->GetPoint(bestvertex), poly->GetPoint(diagonal.index2));
     triangles->push_back(triangle);
     if (bestvertex > (diagonal.index1 + 1)) {
-      newdiagonal.index1 = diagonal.index1;
-      newdiagonal.index2 = bestvertex;
-      diagonals.push_back(newdiagonal);
+      diagonals.push_back(Diagonal{diagonal.index1, bestvertex});
     }
     if (diagonal.index2 > (bestvertex + 1)) {
-      newdiagonal.index1 = bestvertex;
-      newdiagonal.index2 = diagonal.index2;
-      diagonals.push_back(newdiagonal);
+      diagonals.push_back(Diagonal{bestvertex, diagonal.index2});
     }
   }
 
@@ -992,9 +977,7 @@ int TPPLPartition::ConvexPartition_OPT(TPPLPoly *poly, TPPLPolyList *parts) {
     j = i + 2;
     if (dpstates[i][j].visible) {
       dpstates[i][j].weight = 0;
-      newdiagonal.index1 = i + 1;
-      newdiagonal.index2 = i + 1;
-      dpstates[i][j].pairs.push_back(newdiagonal);
+      dpstates[i][j].pairs.emplace_back(Diagonal{i + 1, i + 1});
     }
   }
 

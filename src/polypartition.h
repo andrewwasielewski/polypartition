@@ -51,6 +51,11 @@ struct TPPLPoint {
   // by the library, but will be faithfully copied around.
   int id;
 
+  TPPLPoint() = default;
+
+  TPPLPoint(tppl_float x, tppl_float y)
+    : x(x), y(y) {}
+
   TPPLPoint operator+(const TPPLPoint &p) const {
     TPPLPoint r;
     r.x = x + p.x;
