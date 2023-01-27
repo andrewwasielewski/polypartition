@@ -51,7 +51,7 @@ void TPPLPoly::Init(long numpoints) {
   points = new TPPLPoint[numpoints];
 }
 
-void TPPLPoly::Triangle(TPPLPoint &p1, TPPLPoint &p2, TPPLPoint &p3) {
+void TPPLPoly::Triangle(const TPPLPoint &p1, const TPPLPoint &p2, const TPPLPoint &p3) {
   Init(3);
   points[0] = p1;
   points[1] = p2;
@@ -865,7 +865,7 @@ void TPPLPartition::TypeA(long i, long j, long k, PartitionVertex *vertices, DPS
   UpdateState(i, k, w, top, j, dpstates);
 }
 
-void TPPLPartition::TypeB(long i, long j, long k, PartitionVertex *vertices, DPState2 **dpstates) {
+void TPPLPartition::TypeB(long i, long j, long k, const PartitionVertex *vertices, DPState2 **dpstates) {
   if (!dpstates[j][k].visible) {
     return;
   }
@@ -1540,7 +1540,7 @@ void TPPLPartition::AddDiagonal(MonotoneVertex *vertices, long *numvertices, lon
   }
 }
 
-bool TPPLPartition::Below(TPPLPoint &p1, TPPLPoint &p2) {
+bool TPPLPartition::Below(const TPPLPoint &p1, const TPPLPoint &p2) {
   if (p1.y < p2.y) {
     return true;
   } else if (p1.y == p2.y) {

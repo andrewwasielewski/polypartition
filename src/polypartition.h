@@ -146,7 +146,7 @@ class TPPLPoly {
   void Init(long numpoints);
 
   // Creates a triangle with points p1, p2, and p3.
-  void Triangle(TPPLPoint &p1, TPPLPoint &p2, TPPLPoint &p3);
+  void Triangle(const TPPLPoint &p1, const TPPLPoint &p2, const TPPLPoint &p3);
 
   // Inverts the orfer of vertices.
   void Invert();
@@ -263,10 +263,10 @@ public:
   // Helper functions for ConvexPartition_OPT.
   void UpdateState(long a, long b, long w, long i, long j, DPState2 **dpstates);
   void TypeA(long i, long j, long k, PartitionVertex *vertices, DPState2 **dpstates);
-  void TypeB(long i, long j, long k, PartitionVertex *vertices, DPState2 **dpstates);
+  void TypeB(long i, long j, long k, const PartitionVertex *vertices, DPState2 **dpstates);
 
   // Helper functions for MonotonePartition.
-  bool Below(TPPLPoint &p1, TPPLPoint &p2);
+  bool Below(const TPPLPoint &p1, const TPPLPoint &p2);
   void AddDiagonal(MonotoneVertex *vertices, long *numvertices, long index1, long index2,
           TPPLVertexType *vertextypes, std::set<ScanLineEdge>::iterator *edgeTreeIterators,
           std::set<ScanLineEdge> *edgeTree, long *helpers);
